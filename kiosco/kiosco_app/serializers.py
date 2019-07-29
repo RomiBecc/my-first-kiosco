@@ -12,6 +12,7 @@ class ProductoSerializer(serializers.ModelSerializer):
             'codigo_producto',
             'precio_sugerido',
         ]
+
 class ProveedorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Proveedor

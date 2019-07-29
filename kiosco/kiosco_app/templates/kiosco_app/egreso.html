@@ -7,8 +7,8 @@
     {% for egreso in object_list %}
         <div class="producto">
             <h3> <a href="">{{ egreso.producto }}</a></h3>
-            <p>{{ egreso.cantidad }}</p>
-            <p>$ {{ egreso.fecha }}</p>
+            <p>Egreso: {{ egreso.cantidad }}</p>
+            <p> {{ egreso.fecha }}</p>
         </div>
     {% endfor %}
 {% endblock %}

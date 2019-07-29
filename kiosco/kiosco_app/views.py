@@ -119,16 +119,7 @@ class EgresoFormView(FormView):
     template_name = "kiosco_app/egreso_edit.html"
 
     def form_valid(self, form):
-        egresar = form.save(commit=False)
-        '''
-        
-        if Ingreso.cantidad >= Egreso.cantidad:
-            Ingreso.cantidad = Ingreso.cantidad - Egreso.cantidad
-            egresar.save()
-        else:
-            print("El stock es menor a la cantidad que desea sacar. Hay " + Ingreso.cantidad)
-        '''
-        egresar.save()
+        egresar = form.save()
         return super(EgresoFormView, self).form_valid(form)
 
 class EgresoViewSet(viewsets.ModelViewSet):

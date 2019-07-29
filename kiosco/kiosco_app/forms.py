@@ -25,3 +25,11 @@ class EgresoForm(forms.ModelForm):
     class Meta:
         model = Egreso
         fields = ('producto', 'cantidad', 'fecha')
+
+    def clean_cantidad(self):
+        cantidad = self.cleaned_data['cantidad']
+        producto = self.cleaned_data['producto']
+        if producto.get_stock() < cantidad:
+            raise forms.ValidationError(f"La cantidad solicitada({cantidad}) es mayor al stock. Su stock actual es {producto.get_stock()}.")
+        return cantidad
+
