@@ -8,9 +8,9 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from django.views.generic import FormView
 from django.views.generic import ListView
-from .forms import ProductoForm, ProveedorForm
+from .forms import ProductoForm, ProveedorForm, IngresoForm, EgresoForm
 from .models import Producto, Proveedor, Ingreso, Egreso
-from .serializers import ProductoSerializer, UserSerializer, ProveedorSerializer
+from .serializers import ProductoSerializer, UserSerializer, ProveedorSerializer, IngresoSerializer, EgresoSerializer
 
 
 class ProductoListView(ListView):
@@ -41,7 +41,9 @@ class ProductoViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().prefetch_related(
         "producto_set",
-        "proveedor_set"
+        "proveedor_set",
+        "ingreso_set",
+        "egreso_set"
     )
     serializer_class = UserSerializer
 
@@ -70,6 +72,76 @@ class ProveedorFormView(FormView):
 class ProveedorViewSet(viewsets.ModelViewSet):
     queryset = Proveedor.objects.all()
     serializer_class = ProveedorSerializer
+
+
+
+
+class IngresoListView(ListView):
+    model = Ingreso
+    template_name = "kiosco_app/ingreso.html"
+
+    def get_queryset(self):
+        queryset = super(IngresoListView, self).get_queryset()
+        queryset = queryset.order_by("-id")
+        return queryset
+
+
+class IngresoFormView(FormView):
+    form_class = IngresoForm
+
+    success_url = reverse_lazy('ingresos')
+    template_name = "kiosco_app/ingreso_edit.html"
+
+    def form_valid(self, form):
+        ingresar = form.save(commit=False)
+        ingresar.save()
+        return super(IngresoFormView, self).form_valid(form)
+
+class IngresoViewSet(viewsets.ModelViewSet):
+    queryset = Ingreso.objects.all()
+    serializer_class = IngresoSerializer
+
+
+class EgresoListView(ListView):
+    model = Egreso
+    template_name = "kiosco_app/egreso.html"
+
+    def get_queryset(self):
+        queryset = super(EgresoListView, self).get_queryset()
+        queryset = queryset.order_by("-id")
+        return queryset
+
+
+class EgresoFormView(FormView):
+    form_class = EgresoForm
+
+    success_url = reverse_lazy('egresos')
+    template_name = "kiosco_app/egreso_edit.html"
+
+    def form_valid(self, form):
+        egresar = form.save(commit=False)
+        '''
+        
+        if Ingreso.cantidad >= Egreso.cantidad:
+            Ingreso.cantidad = Ingreso.cantidad - Egreso.cantidad
+            egresar.save()
+        else:
+            print("El stock es menor a la cantidad que desea sacar. Hay " + Ingreso.cantidad)
+        '''
+        egresar.save()
+        return super(EgresoFormView, self).form_valid(form)
+
+class EgresoViewSet(viewsets.ModelViewSet):
+    queryset = Egreso.objects.all()
+    serializer_class = EgresoSerializer
+
+egreso_nuevo= login_required(EgresoFormView.as_view(), login_url="/admin/login")
+egresos = EgresoListView.as_view()
+
+
+ingreso_nuevo= login_required(IngresoFormView.as_view(), login_url="/admin/login")
+ingresos = IngresoListView.as_view()
+
 
 proveedor_nuevo = login_required(ProveedorFormView.as_view(), login_url="/admin/login")
 proveedores = ProveedorListView.as_view()

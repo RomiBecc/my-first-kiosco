@@ -20,11 +20,13 @@ from kiosco_app import views
 
 from rest_framework import routers
 
-from kiosco_app.views import ProductoViewSet, UserViewSet, ProveedorViewSet
+from kiosco_app.views import ProductoViewSet, UserViewSet, ProveedorViewSet, IngresoViewSet, EgresoViewSet
 
 router = routers.DefaultRouter()
 router.register('producto', ProductoViewSet)
 router.register('proveedor', ProveedorViewSet)
+router.register('ingreso', IngresoViewSet)
+router.register('egreso', EgresoViewSet)
 router.register('user', UserViewSet)
 
 
@@ -36,5 +38,9 @@ urlpatterns = [
     path('productos/nuevo', views.producto_nuevo, name= 'productos_nuevo'),
     path('proveedores/', views.proveedores, name= 'proveedores_list'),
     path('proveedores/nuevo', views.proveedor_nuevo, name= 'proveedores_nuevo'),
+    path('ingresos/', views.ingresos, name= 'ingresos'),
+    path('ingresos/nuevo', views.ingreso_nuevo, name= 'ingresos_nuevo'),
+    path('egresos/', views.egresos, name='egresos'),
+    path('egresos/nuevo', views.egreso_nuevo, name='egresos_nuevo'),
     path('api/', include(router.urls)),
     ]

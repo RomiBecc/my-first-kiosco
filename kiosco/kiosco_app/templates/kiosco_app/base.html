@@ -13,11 +13,26 @@
     <div class="page-header">
         <h1>Kiosco</h1>
 
+        <div class="row opciones">
+                    <div class="col-md-3" >
+                        <a href="{% url 'productos_list' %}" class="">Productos </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'proveedores_list' %}" class="">Proveedores</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'ingresos' %}" class="">Ingresos </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{% url 'egresos' %}" class="">Egresos</a>
+                    </div>
+        </div>
     </div>
 
 <div class="content container">
-        <div class="row">
+
             <div class="col-md-8">
+
                 {% block content %}
                 {% endblock %}
             </div>

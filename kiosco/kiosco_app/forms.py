@@ -13,3 +13,15 @@ class ProveedorForm(forms.ModelForm):
     class Meta:
         model= Proveedor
         fields = ('nombre','cuit','direccion','telefono')
+
+class IngresoForm(forms.ModelForm):
+
+    class Meta:
+        model = Ingreso
+        fields = ('producto','proveedor','cantidad','fecha')
+
+
+class EgresoForm(forms.ModelForm):
+    class Meta:
+        model = Egreso
+        fields = ('producto', 'cantidad', 'fecha')

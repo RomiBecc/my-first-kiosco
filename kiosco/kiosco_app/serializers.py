@@ -21,9 +21,31 @@ class ProveedorSerializer(serializers.ModelSerializer):
             'direccion',
             'telefono',
         ]
+
+class IngresoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Ingreso
+        fields = [
+            'producto',
+            'proveedor',
+            'cantidad',
+            'fecha'
+        ]
+
+class EgresoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Egreso
+        fields = [
+            'producto',
+            'cantidad',
+            'fecha'
+        ]
+
 class UserSerializer(serializers.ModelSerializer):
     productos = ProductoSerializer(many=True, source="producto_set")
     proveedores = ProveedorSerializer(many= True, source= "proveedor_set")
+    ingresos = IngresoSerializer(many=True,source="ingreso_set")
+    egresos = EgresoSerializer(many=True,source="egreso_set")
     custom_field = serializers.SerializerMethodField()
 
     class Meta:
@@ -31,5 +53,7 @@ class UserSerializer(serializers.ModelSerializer):
         fiels = [
             'productos',
             'proveedores',
+            'ingresos',
+            'egresos',
             'custom_field'
         ]
